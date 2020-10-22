@@ -1,38 +1,54 @@
 <template>
-  <div class="home">
-    <Split style="height: 100vh;">
-      <SplitArea :size="25">
-        File list here
+  <v-app  class="home">
+    <v-app-bar dark class="titlebar" style="text-align: center;child-align: middle"  color="warning">
+      <v-toolbar-title style="text-align: center;child-align: middle" class="ml-15">Scheme It</v-toolbar-title>
+    </v-app-bar>
+    <Split style="background-color: #1f2020;height: 97vh">
+      <SplitArea  :size="15">
+        <file-explorer style="overflow: scroll;height: 100vh"/>
       </SplitArea>
-      <SplitArea :size="75">
+      <SplitArea :size="85">
         <Split direction="vertical">
           <SplitArea :size="75">
             <MonacoEditor
-                    v-model="code"
+                    
+                    v-model="$store.state.code"
                     class="editor"
-                    theme="vs"
+                    theme="vs-dark"
                     language="scheme"
                     :options="options"
                     @change="onChange"
+                    height="100%"
             ></MonacoEditor>
           </SplitArea>
           <SplitArea :size="25">
+            <MonacoEditor
           
+                    
+                    class="editor"
+                    theme="vs-dark"
+                    language="scheme"
+                    :options="options"
+                    @change="onChange"
+                    height="100%"
+            ></MonacoEditor>
           </SplitArea>
         </Split>
         
       </SplitArea>
     </Split>
     
-  </div>
+  </v-app>
 </template>
 
 <script>
 // @ is an alias to /src
 import MonacoEditor from 'monaco-editor-vue';
+import FileExplorer from "../components/fileExplorer";
 export default {
   name: 'Home',
   components: {
+    FileExplorer,
     MonacoEditor
   },
 data() {
@@ -43,30 +59,36 @@ data() {
       automaticLayout: true
       
     },
-    code:"(define a 5)\n" +
-            "(define (repeated method count)\n" +
-            " (lambda (x)\n" +
-            " (if (= count 0) \n" +
-            "    x \n" +
-            "(method ((repeated method (- count 1)) x))))) ; do for the countth time, has been done count-1 times\n" +
-            "\n" +
-            "(define (last lyst)\n" +
-            "(car ((repeated cdr (- (length lyst) 1)) lyst))\n" +
-            ")\n"
+    code:";code",
+    selectedItem:null
   }
 },
 methods: {
   onChange(value) {
     //console.log(value);
     //send the value to the file
+  },
+  show(value){
+    //console.log(value)
+    //this.code = value
+    //console.log(JSON.parse(JSON.stringify(value)))
+    this.code = value
   }
 }
 }
 </script>
 <style lang="scss">
   .editor{
-    width: calc(100% -  100px);
+  
   }
+  .gutter {
+    background-color: #474747 !important;
+  }
+  .titlebar {
+    -webkit-user-select: none;
+    -webkit-app-region: drag;
+  }
+  
 </style>
 
 
