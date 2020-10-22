@@ -17,7 +17,7 @@ new Vue({
 const fs =require('fs')
 const path = require('path')
 const homedir = require('os').homedir();
-const directoryPath = path.join(homedir,'WebstormProjects','virtual-campus')
+const directoryPath = path.join(homedir,'SchemeItProjects','trial0')
 
 
 /*fs.readdir(directoryPath, function (err, files) {

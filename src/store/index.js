@@ -8,7 +8,11 @@ export default new Vuex.Store({
     fileList:[],
     tree:[],
     iconRef:{},
-    code:""
+    code:"",
+    file:{
+      content:"",
+      name:"Untitled"
+    }
   },
   mutations: {
     setFiles(state, files){

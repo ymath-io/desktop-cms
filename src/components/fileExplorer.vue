@@ -4,6 +4,7 @@
 	<v-treeview dark dense
 	            :items="$store.state.fileList"
 	            activatable
+	            hoverable
 	            v-model="$store.state.tree"
 	            open-on-click
 	            @update:open="logit"
@@ -18,11 +19,15 @@
 				<v-img max-height="20px" max-width="20px"  src="./../../public/file-icons/racket-logo.svg"/>
 			</v-avatar>
 		</template>
+		<template v-slot:label="{item, leaf}">
+			<span @click="$store.state.file = item" >{{item.name}}</span>
+		</template>
 	</v-treeview>
 	</div>
 </template>
 
 <script>
+	const fs = require('fs');
     export default {
         name: "fileExplorer",
 	    methods:{
@@ -31,7 +36,10 @@
 	            const theFile = this.$store.state.fileList.filter(function (f) {
 					return f.name===obj[0]
                 })[0]
-	            this.$store.state.code = theFile.content
+	            if (theFile && theFile.content){
+	            this.$store.state.file = theFile
+		            //console.log(this.$store.state.file)
+	            }
             },
 		    logit(h){
                 console.log(h)

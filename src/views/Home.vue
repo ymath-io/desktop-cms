@@ -1,6 +1,6 @@
 <template>
   <v-app  class="home">
-    <v-app-bar dark class="titlebar" style="text-align: center;child-align: middle"  color="warning">
+    <v-app-bar dark class="titlebar" style="text-align: center;child-align: middle"  color="primary">
       <v-toolbar-title style="text-align: center;child-align: middle" class="ml-15">Scheme It</v-toolbar-title>
     </v-app-bar>
     <Split style="background-color: #1f2020;height: 97vh">
@@ -12,7 +12,7 @@
           <SplitArea :size="75">
             <MonacoEditor
                     
-                    v-model="$store.state.code"
+                    v-model="$store.state.file.content"
                     class="editor"
                     theme="vs-dark"
                     language="scheme"
@@ -45,6 +45,7 @@
 // @ is an alias to /src
 import MonacoEditor from 'monaco-editor-vue';
 import FileExplorer from "../components/fileExplorer";
+const fs = require('fs');
 export default {
   name: 'Home',
   components: {
@@ -67,6 +68,8 @@ methods: {
   onChange(value) {
     //console.log(value);
     //send the value to the file
+    fs.writeFileSync(this.$store.state.file.path,value)
+    
   },
   show(value){
     //console.log(value)
