@@ -19,3 +19,9 @@ export default {
   }),
 };
 </script>
+<style>
+  #app{
+    height:100vh;
+    background-color: #1f2020;
+  }
+</style>

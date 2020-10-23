@@ -42,7 +42,7 @@
 	            }
             },
 		    logit(h){
-                console.log(h)
+                //console.log(h)
 		    }
 	    }
     }
