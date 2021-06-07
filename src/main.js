@@ -17,7 +17,7 @@ new Vue({
 const fs =require('fs')
 const path = require('path')
 const homedir = require('os').homedir();
-const directoryPath = path.join(homedir,'SchemeItProjects','trial0')
+const directoryPath = path.join(homedir, 'WebstormProjects','desktop-cms' )//'ymath-nuxt-tailwind', 'content')
 
 
 /*fs.readdir(directoryPath, function (err, files) {
@@ -44,45 +44,7 @@ const directoryPath = path.join(homedir,'SchemeItProjects','trial0')
   console.dir(store.state.fileList)
 
 });*/
-function compareFiles(a, b) {
-  // Use toUpperCase() to ignore character casing
-  const bandA = a.name.toUpperCase();
-  const bandB = b.name.toUpperCase();
-  if (a.isDir && !b.isDir){
-    return -1
-  }
-  else if (!a.isDir && b.isDir){
-    return 1
-  }
-  let comparison = 0;
-  if (bandA > bandB) {
-    comparison = 1;
-  } else if (bandA < bandB) {
-    comparison = -1;
-  }
-  return comparison;
-}
+const {walkDir, compareFiles} = require('./plugins/loadDirectory')
 
-function walkDir(directoryPath){
-  console.log("Indexing ",directoryPath)
-  return fs.readdirSync(directoryPath,{withFileTypes: true}).map(item => {
-    const isDir = item.isDirectory()
-    let obj = {name:item.name,
-      path:path.join(directoryPath,item.name),
-      isDir
-    }
-    // this is where we can ignore and hide things
-    if (isDir && ![".git",".schemeit","node_modules"].includes(item.name)){
-      // we redo
-      obj.children = walkDir(path.join(directoryPath,item.name)).sort(compareFiles)
-    }
-    else if (![".git",".schemeit",".DS_Store","node_modules"].includes(item.name)) {
-      obj.file = item.name.split('.')[1]
-      obj.content = fs.readFileSync(path.join(directoryPath,item.name),'utf-8');
-    }
-    return obj
-  })
-}
-
-const fileObj = walkDir(directoryPath).sort(compareFiles)// sort alphabetically
+const fileObj = walkDir(directoryPath, true).sort(compareFiles)// sort alphabetically
 store.commit('setFiles',fileObj);
